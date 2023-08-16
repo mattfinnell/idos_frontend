@@ -23,6 +23,8 @@ import {
 } from '@chakra-ui/icons';
 
 import { FC } from 'react';
+import { Link } from 'react-router-dom';
+import { RouteType, routes } from './routes';
 
 type NavBarProps = {};
 
@@ -57,7 +59,7 @@ const NavBar:FC<NavBarProps> = () => {
             textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
             fontFamily={'heading'}
             color={useColorModeValue('gray.800', 'white')}>
-            Logo
+            <Link to="/">Logo</Link>
           </Text>
 
           <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
@@ -101,14 +103,13 @@ const DesktopNav = () => {
 
   return (
     <Stack direction={'row'} spacing={4}>
-      {NAV_ITEMS.map((navItem) => (
-        <Box key={navItem.label}>
+      {routes.map((route) => (
+        <Box key={route.label}>
           <Popover trigger={'hover'} placement={'bottom-start'}>
             <PopoverTrigger>
               <Box
                 as="a"
                 p={2}
-                href={navItem.href ?? '#'}
                 fontSize={'sm'}
                 fontWeight={500}
                 color={linkColor}
@@ -116,11 +117,11 @@ const DesktopNav = () => {
                   textDecoration: 'none',
                   color: linkHoverColor,
                 }}>
-                {navItem.label}
+                  <Link to={route.path}>{route.label}</Link>
               </Box>
             </PopoverTrigger>
 
-            {navItem.children && (
+            {route.children && (
               <PopoverContent
                 border={0}
                 boxShadow={'xl'}
@@ -129,7 +130,7 @@ const DesktopNav = () => {
                 rounded={'xl'}
                 minW={'sm'}>
                 <Stack>
-                  {navItem.children.map((child) => (
+                  {route.children.map((child) => (
                     <DesktopSubNav key={child.label} {...child} />
                   ))}
                 </Stack>
@@ -142,11 +143,11 @@ const DesktopNav = () => {
   )
 }
 
-const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
+const DesktopSubNav = ({ label, path, subLabel }: RouteType) => {
   return (
     <Box
       as="a"
-      href={href}
+      href={path}
       role={'group'}
       display={'block'}
       p={2}
@@ -180,14 +181,14 @@ const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
 const MobileNav = () => {
   return (
     <Stack bg={useColorModeValue('white', 'gray.800')} p={4} display={{ md: 'none' }}>
-      {NAV_ITEMS.map((navItem) => (
-        <MobileNavItem key={navItem.label} {...navItem} />
+      {routes.map((route) => (
+        <MobileNavItem key={route.label} {...route} />
       ))}
     </Stack>
   )
 }
 
-const MobileNavItem = ({ label, children, href }: NavItem) => {
+const MobileNavItem = ({ label, children, path }: RouteType) => {
   const { isOpen, onToggle } = useDisclosure()
 
   return (
@@ -195,7 +196,7 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
       <Box
         py={2}
         as="a"
-        href={href ?? '#'}
+        href={path ?? '#'}
         justifyContent="space-between"
         alignItems="center"
         _hover={{
@@ -225,7 +226,7 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
           align={'start'}>
           {children &&
             children.map((child) => (
-              <Box as="a" key={child.label} py={2} href={child.href}>
+              <Box as="a" key={child.label} py={2} href={child.path}>
                 {child.label}
               </Box>
             ))}
@@ -234,27 +235,5 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
     </Stack>
   )
 }
-
-interface NavItem {
-  label: string
-  subLabel?: string
-  children?: Array<NavItem>
-  href?: string
-}
-
-const NAV_ITEMS: Array<NavItem> = [
-  {
-    label: 'IDOS',
-    href:'/'
-  },
-  {
-    label: 'Search',
-    href: '/search'
-  },
-  {
-    label: 'Health',
-    href: '/health_check'
-  },
-]
 
 export default NavBar;

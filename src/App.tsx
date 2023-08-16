@@ -1,10 +1,11 @@
 import logo from './logo.svg';
 import './App.css';
-import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query';
-import { ChakraProvider } from '@chakra-ui/react';
-import NavBarWithSubnavigation from './components/NavBar/NavBar';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Box, ChakraProvider, SimpleGrid } from '@chakra-ui/react';
+import NavBarWithSubnavigation from './components/Navigation/NavBar';
 
-const fetchTodo = () => fetch("http://localhost:9000/todo").then(response => response.json());
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { routes } from './components/Navigation/routes';
 
 const queryClient = new QueryClient();
 
@@ -12,45 +13,26 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ChakraProvider>
-        <div className="App">
-          <NavBarWithSubnavigation/>
-          <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <p>
-              Edit <code>src/App.tsx</code> and save to reload.
-            </p>
-            <a
-              className="App-link"
-              href="https://reactjs.org"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learn React
-            </a>
-            <HealthCheck />
-          </header>
-        </div>
+        <BrowserRouter>
+          <div className="App">
+            <NavBarWithSubnavigation/>
+            {/* <header className="App-header"> */}
+              <SimpleGrid columns={2} spacing={10}>
+                <Box>
+                  <img src={logo} className="App-logo" alt="logo" />
+                </Box>
+                <Box>
+                  <Routes>
+                    {routes.map((route, index) => <Route path={route.path} Component={route.component}/>)}
+                  </Routes>
+                </Box>
+              </SimpleGrid>
+            {/* </header> */}
+          </div>
+        </BrowserRouter>
       </ChakraProvider>
     </QueryClientProvider>
   );
 }
-
-const HealthCheck = () => {
-  const {isLoading, error, data} = useQuery(['todoData'], fetchTodo);
-
-  return (
-    <>
-      {isLoading && (<h1>Loading...</h1>)}
-      {error && (<h1>error</h1>)}
-      {data && (
-        <ul>
-          {data.map(
-            (item: {id: Number, description: string, isItDone: boolean}, index: Number) => 
-              <li key={`key-${index}`}>{item.description}</li>)}
-        </ul>
-      )}
-    </>
-  );
-};
 
 export default App;
