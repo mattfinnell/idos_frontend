@@ -2,24 +2,22 @@
 // README at: https://github.com/devcontainers/templates/tree/main/src/typescript-node
 {
 	"name": "Frontend Node DevContainer",
-
-	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	// "image": "mcr.microsoft.com/devcontainers/typescript-node:1-20-bullseye",
-	"dockerComposeFile": "../../docker-compose.yml",
-    "service": "frontend",
-    "workspaceFolder": "/workspace/frontend",
-
-	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "yarn install",
+	"image": "mcr.microsoft.com/devcontainers/typescript-node",
 
 	// Configure tool-specific properties.
 	"customizations": {
 		"vscode": {
 			"extensions": [
 				"dbaeumer.vscode-eslint"
-			]
+			],
+			"settings": {
+				"editor.formatOnSave": true
+			}
 		}
-	}
+	},
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	"postCreateCommand" : "yarn start"
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": { },
