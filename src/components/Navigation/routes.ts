@@ -4,27 +4,27 @@ import Home from "../Home/Home";
 import Search from "../Search/Search";
 
 export type RouteType = {
-  label: string,
-  subLabel?: string,
-  children?: Array<RouteType>,
-  path: string,
-  component: FC<any>,
+  label: string;
+  subLabel?: string;
+  children?: Array<RouteType>;
+  path: string;
+  component: FC<any>;
 };
 
 export const routes: Array<RouteType> = [
   {
-    label: 'IDOS',
-    path: '/',
+    label: "IDOS",
+    path: "/",
     component: Home,
   },
   {
-    label: 'Search',
-    path: '/search',
+    label: "Search",
+    path: "/search",
     component: Search,
   },
   {
-    label: 'Health Check',
-    path: '/health_check',
+    label: "Health Check",
+    path: "/health_check",
     component: HealthCheck,
   },
 ];

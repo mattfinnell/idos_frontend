@@ -11,14 +11,19 @@ const Search: FC<SearchProps> = () => {
     <>
       <SimpleGrid columns={2} spacing={10}>
         <Box>
-          <Stack direction={['column', 'row']} spacing='24px'>
-            <Input 
-              variant='outline' 
-              placeholder='Search for...' 
-              value={searchString} 
+          <Stack direction={["column", "row"]} spacing="24px">
+            <Input
+              variant="outline"
+              placeholder="Search for..."
+              value={searchString}
               onChange={(event) => setSearchString(event.target.value)}
             />
-            <Button colorScheme='blue' onClick={(_) => setResults(searchString)}>Search</Button>
+            <Button
+              colorScheme="blue"
+              onClick={(_) => setResults(searchString)}
+            >
+              Search
+            </Button>
           </Stack>
         </Box>
         <Box>
