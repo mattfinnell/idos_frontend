@@ -8,10 +8,22 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				"dbaeumer.vscode-eslint"
+				"dbaeumer.vscode-eslint",
+				"esbenp.prettier-vscode"
 			],
 			"settings": {
-				"editor.formatOnSave": true
+				"editor.formatOnSave": true,
+				"editor.defaultFormatter": "esbenp.prettier-vscode"
+				// "[typescriptreact]": {
+				// 	"editor.tabSize": 2,
+				// 	"editor.formatOnSave": true,
+				// 	"editor.insertSpaces": true,
+				// 	"editor.foldingImportsByDefault": true,
+				// 	"editor.trimAutoWhitespace": true,
+				// 	"editor.codeActionsOnSave": {
+				// 		"source.organizeImports": true
+				// 	}
+				// }
 			}
 		}
 	},
