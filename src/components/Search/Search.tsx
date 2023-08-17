@@ -1,4 +1,11 @@
-import { Button, Stack, SimpleGrid, Box, Input } from "@chakra-ui/react";
+import {
+  Button,
+  Stack,
+  SimpleGrid,
+  Box,
+  Input,
+  Container,
+} from "@chakra-ui/react";
 import { FC, useState } from "react";
 import useSearchParamsState from "../../hooks/useSearchParamsState";
 
@@ -10,29 +17,31 @@ const Search: FC<SearchProps> = () => {
     atob(searchParamsState),
   );
 
+  const search = (input: string): void => setSearchParamsState(btoa(input));
+
   return (
     <>
-      <SimpleGrid columns={2} spacing={10}>
-        <Box>
+      <Stack>
+        <Container maxWidth="container.md">
           <Stack direction={["column", "row"]} spacing="24px">
             <Input
               variant="outline"
-              placeholder="Search for..."
+              placeholder="Search for something!"
               value={searchState}
               onChange={(event) => setSearchState(event.target.value)}
+              onKeyDown={(event) =>
+                event.key === "Enter" ? search(searchState) : null
+              }
             />
-            <Button
-              colorScheme="blue"
-              onClick={(_) => setSearchParamsState(btoa(searchState))}
-            >
+            <Button colorScheme="blue" onClick={(_) => search(searchState)}>
               Search
             </Button>
           </Stack>
-        </Box>
+        </Container>
         <Box>
           <h1>{searchParamsState}</h1>
         </Box>
-      </SimpleGrid>
+      </Stack>
     </>
   );
 };
