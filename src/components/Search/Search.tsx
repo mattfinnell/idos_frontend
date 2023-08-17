@@ -10,8 +10,18 @@ import { useQuery } from "@tanstack/react-query";
 import { FC, useState } from "react";
 import useSearchParamsState from "../../hooks/useSearchParamsState";
 
-const fetchSearchResults = () =>
-  fetch("http://localhost:9000/search").then((response) => response.json());
+const fetchSearchResults = async ({ queryKey }: any) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_, searchParamsState] = queryKey;
+
+  if (searchParamsState === "") {
+    return {};
+  }
+
+  const data = await fetch(`http://localhost:9000/search/${searchParamsState}`);
+
+  return await data.json();
+};
 
 type SearchProps = {};
 
@@ -21,9 +31,10 @@ const Search: FC<SearchProps> = () => {
     atob(searchParamsState),
   );
 
-  const { isLoading, error, data } = useQuery(
+  const { data, error, status } = useQuery(
     ["search", searchParamsState],
     fetchSearchResults,
+    { retry: false },
   );
 
   const search = (input: string): void => {
@@ -49,10 +60,14 @@ const Search: FC<SearchProps> = () => {
             </Button>
           </Stack>
         </Container>
-        <Box marginTop="16">
-          {isLoading && <Progress size="xs" isIndeterminate />}
-          {error && <h1>error</h1>}
-          {data && <h1>Data Has Been Found!!</h1>}
+        <Box marginTop="16" textAlign={["left"]}>
+          <>
+            {status === "error" && (
+              <pre>Error: {JSON.stringify(error, null, 2)}</pre>
+            )}
+            {status === "loading" && <Progress size="xs" isIndeterminate />}
+            {status === "success" && <pre>{JSON.stringify(data, null, 2)}</pre>}
+          </>
         </Box>
       </Stack>
     </>
