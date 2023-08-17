@@ -1,13 +1,17 @@
 import {
-  Button,
-  Stack,
-  SimpleGrid,
   Box,
-  Input,
+  Button,
   Container,
+  Input,
+  Progress,
+  Stack,
 } from "@chakra-ui/react";
+import { useQuery } from "@tanstack/react-query";
 import { FC, useState } from "react";
 import useSearchParamsState from "../../hooks/useSearchParamsState";
+
+const fetchSearchResults = () =>
+  fetch("http://localhost:9000/search").then((response) => response.json());
 
 type SearchProps = {};
 
@@ -17,7 +21,14 @@ const Search: FC<SearchProps> = () => {
     atob(searchParamsState),
   );
 
-  const search = (input: string): void => setSearchParamsState(btoa(input));
+  const { isLoading, error, data } = useQuery(
+    ["search", searchParamsState],
+    fetchSearchResults,
+  );
+
+  const search = (input: string): void => {
+    setSearchParamsState(btoa(input));
+  };
 
   return (
     <>
@@ -38,8 +49,10 @@ const Search: FC<SearchProps> = () => {
             </Button>
           </Stack>
         </Container>
-        <Box>
-          <h1>{searchParamsState}</h1>
+        <Box marginTop="16">
+          {isLoading && <Progress size="xs" isIndeterminate />}
+          {error && <h1>error</h1>}
+          {data && <h1>Data Has Been Found!!</h1>}
         </Box>
       </Stack>
     </>
