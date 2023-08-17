@@ -1,11 +1,14 @@
 import { Button, Stack, SimpleGrid, Box, Input } from "@chakra-ui/react";
 import { FC, useState } from "react";
+import useSearchParamsState from "../../hooks/useSearchParamsState";
 
 type SearchProps = {};
 
 const Search: FC<SearchProps> = () => {
-  const [searchString, setSearchString] = useState<string>("DefaultStateText");
-  const [results, setResults] = useState<string>(searchString);
+  const [searchParamsState, setSearchParamsState] = useSearchParamsState();
+  const [searchState, setSearchState] = useState<string>(
+    atob(searchParamsState),
+  );
 
   return (
     <>
@@ -15,19 +18,19 @@ const Search: FC<SearchProps> = () => {
             <Input
               variant="outline"
               placeholder="Search for..."
-              value={searchString}
-              onChange={(event) => setSearchString(event.target.value)}
+              value={searchState}
+              onChange={(event) => setSearchState(event.target.value)}
             />
             <Button
               colorScheme="blue"
-              onClick={(_) => setResults(searchString)}
+              onClick={(_) => setSearchParamsState(btoa(searchState))}
             >
               Search
             </Button>
           </Stack>
         </Box>
         <Box>
-          <h1>{results}</h1>
+          <h1>{searchParamsState}</h1>
         </Box>
       </SimpleGrid>
     </>
