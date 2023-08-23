@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 const fetchTodo = () =>
-  fetch("http://localhost:9000/todo").then((response) => response.json());
+  fetch("http://localhost:8000/todo").then((response) => response.json());
 
 const HealthCheck = () => {
   const { isLoading, error, data } = useQuery(["todoData"], fetchTodo);
@@ -12,7 +12,7 @@ const HealthCheck = () => {
       {error && <h1>error</h1>}
       {data && (
         <ul>
-          {data.map(
+          {data.results.map(
             (
               item: { id: Number; description: string; isItDone: boolean },
               index: Number,

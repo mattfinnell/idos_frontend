@@ -3,18 +3,21 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 
-import NavBarWithSubnavigation from "./components/Navigation/NavBar";
+import { FC } from "react";
+import NavBar from "./components/Navigation/NavBar";
 import { routes } from "./components/Navigation/routes";
 
 const queryClient = new QueryClient();
 
-function App() {
+type AppProps = {};
+
+const App: FC<AppProps> = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <ChakraProvider>
         <BrowserRouter>
           <div className="App">
-            <NavBarWithSubnavigation />
+            <NavBar />
             <Container maxWidth="container.xl" marginTop="12">
               <Routes>
                 {routes.map((route) => (
@@ -27,6 +30,6 @@ function App() {
       </ChakraProvider>
     </QueryClientProvider>
   );
-}
+};
 
 export default App;

@@ -1,8 +1,8 @@
 import { FC } from "react";
+import Confetti from "../Confetti/Confetti";
 import HealthCheck from "../HealthCheck/HealthCheck";
 import Home from "../Home/Home";
 import Search from "../Search/Search";
-import Confetti from "../Confetti/Confetti";
 
 export type RouteType = {
   label: string;

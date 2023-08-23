@@ -31,15 +31,13 @@ const Search: FC<SearchProps> = () => {
     atob(searchParamsState),
   );
 
+  const search = (input: string): void => setSearchParamsState(btoa(input));
+
   const { data, error, status } = useQuery(
     ["search", searchParamsState],
     fetchSearchResults,
     { retry: false },
   );
-
-  const search = (input: string): void => {
-    setSearchParamsState(btoa(input));
-  };
 
   return (
     <>
