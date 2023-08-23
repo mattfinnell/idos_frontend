@@ -37,7 +37,7 @@ type FormikValueType = {
   rememberMe: boolean;
 };
 
-type SocialSignInProps = {} & LoginGateProps;
+type SocialSignInProps = {} & LoginModalProps;
 const SocialSignIn: FC<SocialSignInProps> = ({
   onSuccess = () => {},
   onFailure = () => {},
@@ -81,7 +81,7 @@ const SocialSignIn: FC<SocialSignInProps> = ({
   );
 };
 
-type EmailAndPasswordSignInProps = {} & LoginGateProps;
+type EmailAndPasswordSignInProps = {} & LoginModalProps;
 const EmailAndPasswordSignIn: FC<EmailAndPasswordSignInProps> = ({
   onSuccess = () => {},
   onFailure = () => {},
@@ -202,12 +202,12 @@ const EmailAndPasswordSignIn: FC<EmailAndPasswordSignInProps> = ({
   );
 };
 
-type LoginGateProps = {
+type LoginModalProps = {
   onSuccess?: () => void;
   onFailure?: () => void;
 };
 
-const LoginGate: FC<LoginGateProps> = ({
+const LoginModal: FC<LoginModalProps> = ({
   onSuccess = () => {},
   onFailure = () => {},
 }) => {
@@ -224,4 +224,4 @@ const LoginGate: FC<LoginGateProps> = ({
   );
 };
 
-export default LoginGate;
+export default LoginModal;

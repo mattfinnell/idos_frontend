@@ -11,11 +11,14 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { FC } from "react";
-import LoginGate from "../Login/LoginGate";
+import LoginModal from "../Login/LoginModal";
+
+import { useNavigate } from "react-router-dom";
 
 type SignInButtonWithModalProps = {};
 const SignInButtonWithModal: FC<SignInButtonWithModalProps> = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const navigate = useNavigate();
 
   return (
     <Stack
@@ -46,7 +49,12 @@ const SignInButtonWithModal: FC<SignInButtonWithModalProps> = () => {
           <ModalHeader>Login / Sign Up</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <LoginGate onSuccess={onClose} />
+            <LoginModal
+              onSuccess={() => {
+                onClose();
+                navigate("/search");
+              }}
+            />
           </ModalBody>
 
           <ModalFooter>
