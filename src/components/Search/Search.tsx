@@ -9,6 +9,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { FC, useState } from "react";
 import useSearchParamsState from "../../hooks/useSearchParamsState";
+import JsonViewer from "../Utilities/JsonViewer";
 
 const fetchSearchResults = async ({ queryKey }: any) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -64,7 +65,7 @@ const Search: FC<SearchProps> = () => {
               <pre>Error: {JSON.stringify(error, null, 2)}</pre>
             )}
             {status === "loading" && <Progress size="xs" isIndeterminate />}
-            {status === "success" && <pre>{JSON.stringify(data, null, 2)}</pre>}
+            {status === "success" && <JsonViewer data={data} />}
           </>
         </Box>
       </Stack>

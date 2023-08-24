@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 
 import { FC } from "react";
-import NavBar from "./components/Navigation/NavBar";
+import { NavBarContainer } from "./components/Navigation/NavBar";
 import { routes } from "./components/Navigation/routes";
 import { AuthProvider } from "./contexts/AuthContext";
 
@@ -19,7 +19,7 @@ const App: FC<AppProps> = () => {
         <ChakraProvider>
           <BrowserRouter>
             <div className="App">
-              <NavBar />
+              <NavBarContainer />
               <Container maxWidth="container.xl" marginTop="12">
                 <Routes>
                   {routes.map((route) => (

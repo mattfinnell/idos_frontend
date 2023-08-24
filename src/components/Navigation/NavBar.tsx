@@ -21,15 +21,18 @@ import {
   HamburgerIcon,
 } from "@chakra-ui/icons";
 
+import { User } from "firebase/auth";
 import { FC } from "react";
 import { Link } from "react-router-dom";
 import { useAuthentication } from "../../contexts/AuthContext";
 import SignInButton from "../Login/SignInButton";
 import { RouteType, routes } from "./routes";
 
-type NavBarProps = {};
-
-const NavBar: FC<NavBarProps> = () => {
+type NavBarProps = {
+  routes: Array<RouteType>;
+  user: User | null;
+};
+const NavBar: FC<NavBarProps> = ({ routes, user }) => {
   const { isOpen, onToggle } = useDisclosure();
 
   return (
@@ -69,26 +72,25 @@ const NavBar: FC<NavBarProps> = () => {
           </Text>
 
           <Flex display={{ base: "none", md: "flex" }} ml={10}>
-            <DesktopNav />
+            <DesktopNav routes={routes} user={user} />
           </Flex>
         </Flex>
 
-        <SignInButton />
+        <SignInButton user={user} />
       </Flex>
 
       <Collapse in={isOpen} animateOpacity>
-        <MobileNav />
+        <MobileNav routes={routes} user={user} />
       </Collapse>
     </Box>
   );
 };
 
-const DesktopNav = () => {
+type DesktopNavProps = {} & NavBarProps;
+const DesktopNav: FC<DesktopNavProps> = ({ routes, user }) => {
   const linkColor = useColorModeValue("gray.600", "gray.200");
   const linkHoverColor = useColorModeValue("gray.800", "white");
   const popoverContentBgColor = useColorModeValue("white", "gray.800");
-
-  const user = useAuthentication();
 
   return (
     <Stack direction={"row"} spacing={4}>
@@ -174,7 +176,8 @@ const DesktopSubNav = ({ label, path, subLabel }: RouteType) => {
   );
 };
 
-const MobileNav = () => {
+type MobileNavProps = {} & NavBarProps;
+const MobileNav: FC<MobileNavProps> = ({ routes }) => {
   return (
     <Stack
       bg={useColorModeValue("white", "gray.800")}
@@ -242,3 +245,12 @@ const MobileNavItem = ({ label, children, path }: RouteType) => {
 };
 
 export default NavBar;
+
+type NavBarContainerProps = {};
+const NavBarContainer: FC<NavBarContainerProps> = () => {
+  const user = useAuthentication();
+
+  return <NavBar routes={routes} user={user} />;
+};
+
+export { NavBarContainer };

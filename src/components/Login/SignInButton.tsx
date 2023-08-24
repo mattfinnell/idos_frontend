@@ -1,13 +1,12 @@
 import { Button, Stack, useDisclosure } from "@chakra-ui/react";
 import { FC } from "react";
 
-import { useAuthentication } from "../../contexts/AuthContext";
+import { User } from "firebase/auth";
 import LoginModal from "./LoginModal";
 
-type SignInButtonProps = {};
-const SignInButton: FC<SignInButtonProps> = () => {
+type SignInButtonProps = { user: User | null };
+const SignInButton: FC<SignInButtonProps> = ({ user }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const user = useAuthentication();
 
   return (
     <Stack

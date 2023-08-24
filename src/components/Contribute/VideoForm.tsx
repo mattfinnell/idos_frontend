@@ -11,7 +11,9 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { Field, Formik } from "formik";
-import { FC } from "react";
+import { FC, useState } from "react";
+import * as Yup from "yup";
+import JsonViewer from "../Utilities/JsonViewer";
 import { ActivityEnum, VideoEnum } from "./contributeEnums";
 
 const inputSpacing = 2;
@@ -35,9 +37,21 @@ const VideoForm: FC<VideoFormProps> = () => {
     type: undefined,
     activity: undefined,
   };
+  const [data, setData] = useState<FormikVideoType | undefined>();
+  const doSomething = (inputs: FormikVideoType) => {
+    setData(inputs);
+  };
 
   return (
-    <Formik initialValues={initialValues} onSubmit={() => {}}>
+    <Formik
+      initialValues={initialValues}
+      onSubmit={doSomething}
+      validationSchema={Yup.object().shape({
+        name: Yup.string().required("Required"),
+        year_released: Yup.number().required("Required"),
+        link: Yup.string().required("Required"),
+      })}
+    >
       {({ handleSubmit, errors, touched }) => (
         <form onSubmit={handleSubmit}>
           <VStack>
@@ -51,6 +65,7 @@ const VideoForm: FC<VideoFormProps> = () => {
                     name="name"
                     type="text"
                   />
+                  <FormErrorMessage>{errors.name}</FormErrorMessage>
                 </FormControl>
               </GridItem>
               <GridItem colSpan={1}>
@@ -103,7 +118,7 @@ const VideoForm: FC<VideoFormProps> = () => {
                   http://
                 </InputLeftAddon>
                 <Input
-                  type="url"
+                  type="text"
                   id="link"
                   name="link"
                   placeholder="www.link-to-vid.com"
@@ -151,6 +166,7 @@ const VideoForm: FC<VideoFormProps> = () => {
             <Button type="submit" colorScheme="purple" width="full">
               Add Riders and Songs
             </Button>
+            {data ? <JsonViewer data={data} /> : null}
           </VStack>
         </form>
       )}

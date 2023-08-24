@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Container,
   Flex,
   Heading,
@@ -9,7 +8,6 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   ModalOverlay,
   Stack,
@@ -76,11 +74,6 @@ const Card = ({ heading, description, icon, form }: CardProps) => {
               </Box>
             </Flex>
           </ModalBody>
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
-              Close
-            </Button>
-          </ModalFooter>
         </ModalContent>
       </Modal>
     </Box>
@@ -149,7 +142,7 @@ const SignInPage: FC<SignInPageProps> = () => {
   return (
     <VStack>
       <Text fontSize="4xl">First Sign In to add some edits and knowledge</Text>
-      <SignInButton />
+      <SignInButton user={null} />
     </VStack>
   );
 };
