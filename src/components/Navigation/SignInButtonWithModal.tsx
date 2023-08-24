@@ -14,11 +14,12 @@ import { FC } from "react";
 import LoginModal from "../Login/LoginModal";
 
 import { useNavigate } from "react-router-dom";
-import { auth } from "../../config/firebase";
+import { useAuthentication } from "../../contexts/AuthContext";
 
 type SignInButtonWithModalProps = {};
 const SignInButtonWithModal: FC<SignInButtonWithModalProps> = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const user = useAuthentication();
   const navigate = useNavigate();
 
   return (
@@ -41,7 +42,7 @@ const SignInButtonWithModal: FC<SignInButtonWithModalProps> = () => {
           bg: "pink.300",
         }}
       >
-        {auth.currentUser?.email ?? "Login / Sign Up"}
+        {user?.email ?? "Login / Sign Up"}
       </Button>
 
       <Modal isOpen={isOpen} onClose={onClose}>
