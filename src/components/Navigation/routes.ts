@@ -1,6 +1,7 @@
 import { FC } from "react";
 import Confetti from "../Confetti/Confetti";
-import HealthCheck from "../HealthCheck/HealthCheck";
+import ContributeWrapper from "../Contribute/Contribute";
+import Multistep from "../Contribute/Reference";
 import Home from "../Home/Home";
 import Profile from "../Profile/Profile";
 import Search from "../Search/Search";
@@ -11,7 +12,7 @@ export type RouteType = {
   children?: Array<RouteType>;
   path: string;
   component: FC<any>;
-  hidden?: boolean;
+  authRequired?: boolean;
 };
 
 export const routes: Array<RouteType> = [
@@ -26,19 +27,27 @@ export const routes: Array<RouteType> = [
     component: Search,
   },
   {
-    label: "Health Check",
-    path: "/health_check",
-    component: HealthCheck,
+    label: "Contribute",
+    path: "/contribute",
+    component: ContributeWrapper,
+    authRequired: false,
   },
   {
     label: "Profile",
     path: "/profile",
     component: Profile,
+    authRequired: true,
   },
   {
     label: "Confetti",
     path: "/confetti",
     component: Confetti,
-    hidden: true,
+    authRequired: true,
   },
-].map((route) => ({ ...route, hidden: route.hidden === true }));
+  {
+    label: "Reference",
+    path: "/reference",
+    component: Multistep,
+    authRequired: true,
+  },
+].map((route) => ({ ...route, hidden: route.authRequired === true }));

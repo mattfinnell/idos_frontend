@@ -10,6 +10,13 @@ import {
   FormErrorMessage,
   Heading,
   Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Spinner,
   Stack,
   Text,
@@ -33,19 +40,18 @@ import {
   googleAuthProvider,
 } from "../../config/firebase";
 
-type SocialSignInProps = {} & LoginModalProps;
+type SocialSignInProps = {} & OptionalLoginModalProps;
 const SocialSignIn: FC<SocialSignInProps> = ({
   onSuccess = () => {},
   onFailure = () => {},
 }) => {
   const loginWithSocialSignIn = async (provider: AuthProvider) => {
     await signInWithPopup(auth, provider)
-      .then((userCredential) => {
-        console.log(userCredential.user);
+      .then((_) => {
         onSuccess();
       })
       .catch((error) => {
-        console.log(error.status, error.message);
+        console.error(error.status, error.message);
         onFailure();
       });
   };
@@ -79,7 +85,7 @@ const SocialSignIn: FC<SocialSignInProps> = ({
   );
 };
 
-type EmailAndPasswordSignInProps = {} & LoginModalProps;
+type EmailAndPasswordSignInProps = {} & OptionalLoginModalProps;
 const EmailAndPasswordSignIn: FC<EmailAndPasswordSignInProps> = ({
   onSuccess = () => {},
   onFailure = () => {},
@@ -101,9 +107,7 @@ const EmailAndPasswordSignIn: FC<EmailAndPasswordSignInProps> = ({
       formValues.email,
       formValues.password,
     )
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log(user);
+      .then((_) => {
         setError("");
         onSuccess();
       })
@@ -114,9 +118,7 @@ const EmailAndPasswordSignIn: FC<EmailAndPasswordSignInProps> = ({
             formValues.email,
             formValues.password,
           )
-            .then((userCredential) => {
-              const user = userCredential.user;
-              console.log(user);
+            .then((_) => {
               setError("");
               onSuccess();
             })
@@ -206,7 +208,7 @@ const EmailAndPasswordSignIn: FC<EmailAndPasswordSignInProps> = ({
   );
 };
 
-type SignOutProps = {} & LoginModalProps;
+type SignOutProps = {} & OptionalLoginModalProps;
 const SignOut: FC<SignOutProps> = ({ onSuccess = () => {} }) => {
   const handleSignOut = () => auth.signOut().then(() => onSuccess());
 
@@ -231,31 +233,53 @@ const SignOut: FC<SignOutProps> = ({ onSuccess = () => {} }) => {
   );
 };
 
-type LoginModalProps = {
+type OptionalLoginModalProps = {
   onSuccess?: () => void;
   onFailure?: () => void;
 };
+
+type LoginModalProps = {
+  isOpen: boolean;
+  onClose: () => void;
+} & OptionalLoginModalProps;
+
 const LoginModal: FC<LoginModalProps> = ({
+  isOpen,
+  onClose,
   onSuccess = () => {},
   onFailure = () => {},
 }) => {
   return (
-    <Flex bg="gray.100" align="center" justify="center" h="75vh">
-      <Box bg="white" p={4} rounded="md" w={64}>
-        {auth.currentUser ? (
-          <SignOut onSuccess={onSuccess} onFailure={onFailure} />
-        ) : (
-          <VStack>
-            <SocialSignIn onSuccess={onSuccess} onFailure={onFailure} />
-            <Divider />
-            <EmailAndPasswordSignIn
-              onSuccess={onSuccess}
-              onFailure={onFailure}
-            />
-          </VStack>
-        )}
-      </Box>
-    </Flex>
+    <Modal isOpen={isOpen} onClose={onClose}>
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>Login / Sign Up</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody>
+          <Flex bg="gray.100" align="center" justify="center" h="75vh">
+            <Box bg="white" p={4} rounded="md" w={64}>
+              {auth.currentUser ? (
+                <SignOut onSuccess={onSuccess} onFailure={onFailure} />
+              ) : (
+                <VStack>
+                  <SocialSignIn onSuccess={onSuccess} onFailure={onFailure} />
+                  <Divider />
+                  <EmailAndPasswordSignIn
+                    onSuccess={onSuccess}
+                    onFailure={onFailure}
+                  />
+                </VStack>
+              )}
+            </Box>
+          </Flex>
+        </ModalBody>
+        <ModalFooter>
+          <Button colorScheme="blue" mr={3} onClick={onClose}>
+            Close
+          </Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
   );
 };
 

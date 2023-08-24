@@ -23,7 +23,8 @@ import {
 
 import { FC } from "react";
 import { Link } from "react-router-dom";
-import SignInButtonWithModal from "./SignInButtonWithModal";
+import { useAuthentication } from "../../contexts/AuthContext";
+import SignInButton from "../Login/SignInButton";
 import { RouteType, routes } from "./routes";
 
 type NavBarProps = {};
@@ -72,7 +73,7 @@ const NavBar: FC<NavBarProps> = () => {
           </Flex>
         </Flex>
 
-        <SignInButtonWithModal />
+        <SignInButton />
       </Flex>
 
       <Collapse in={isOpen} animateOpacity>
@@ -87,10 +88,12 @@ const DesktopNav = () => {
   const linkHoverColor = useColorModeValue("gray.800", "white");
   const popoverContentBgColor = useColorModeValue("white", "gray.800");
 
+  const user = useAuthentication();
+
   return (
     <Stack direction={"row"} spacing={4}>
       {routes
-        .filter((route) => !route.hidden)
+        .filter((route) => !route.authRequired || user)
         .map((route) => (
           <Box key={route.label}>
             <Popover trigger={"hover"} placement={"bottom-start"}>
