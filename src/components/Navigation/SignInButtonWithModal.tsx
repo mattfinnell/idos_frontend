@@ -14,6 +14,7 @@ import { FC } from "react";
 import LoginModal from "../Login/LoginModal";
 
 import { useNavigate } from "react-router-dom";
+import { auth } from "../../config/firebase";
 
 type SignInButtonWithModalProps = {};
 const SignInButtonWithModal: FC<SignInButtonWithModalProps> = () => {
@@ -40,7 +41,7 @@ const SignInButtonWithModal: FC<SignInButtonWithModalProps> = () => {
           bg: "pink.300",
         }}
       >
-        Login / Sign Up
+        {auth.currentUser?.email ?? "Login / Sign Up"}
       </Button>
 
       <Modal isOpen={isOpen} onClose={onClose}>

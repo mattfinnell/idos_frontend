@@ -3,7 +3,9 @@ import { initializeApp } from "firebase/app";
 import {
   FacebookAuthProvider,
   GoogleAuthProvider,
+  browserLocalPersistence,
   getAuth,
+  setPersistence,
 } from "firebase/auth";
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -26,10 +28,13 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+setPersistence(auth, browserLocalPersistence);
 
 // Export utilities
+export { auth };
 export const analytics = getAnalytics(app);
-export const auth = getAuth(app);
 export const googleAuthProvider = new GoogleAuthProvider();
 export const facebookAuthProvider = new FacebookAuthProvider();
 export const firebaseErrors = {

@@ -8,8 +8,10 @@ import {
   Flex,
   FormControl,
   FormErrorMessage,
+  Heading,
   Input,
   Spinner,
+  Stack,
   Text,
   VStack,
 } from "@chakra-ui/react";
@@ -30,12 +32,6 @@ import {
   firebaseErrors,
   googleAuthProvider,
 } from "../../config/firebase";
-
-type FormikValueType = {
-  email: string;
-  password: string;
-  rememberMe: boolean;
-};
 
 type SocialSignInProps = {} & LoginModalProps;
 const SocialSignIn: FC<SocialSignInProps> = ({
@@ -60,6 +56,7 @@ const SocialSignIn: FC<SocialSignInProps> = ({
         w={"full"}
         variant={"outline"}
         leftIcon={<FcGoogle />}
+        colorScheme="black"
         onClick={() => loginWithSocialSignIn(googleAuthProvider)}
       >
         <Center>
@@ -70,6 +67,7 @@ const SocialSignIn: FC<SocialSignInProps> = ({
       <Button
         w={"full"}
         variant={"outline"}
+        colorScheme={"facebook"}
         leftIcon={<FaFacebook />}
         onClick={() => loginWithSocialSignIn(facebookAuthProvider)}
       >
@@ -88,6 +86,12 @@ const EmailAndPasswordSignIn: FC<EmailAndPasswordSignInProps> = ({
 }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
+
+  type FormikValueType = {
+    email: string;
+    password: string;
+    rememberMe: boolean;
+  };
 
   // TODO : This onSubmit handler looks like trash
   const onSubmitHandler = async (formValues: FormikValueType) => {
@@ -202,11 +206,35 @@ const EmailAndPasswordSignIn: FC<EmailAndPasswordSignInProps> = ({
   );
 };
 
+type SignOutProps = {} & LoginModalProps;
+const SignOut: FC<SignOutProps> = ({ onSuccess = () => {} }) => {
+  const handleSignOut = () => auth.signOut().then(() => onSuccess());
+
+  return (
+    <Stack spacing={4}>
+      <Center>
+        <Heading lineHeight={1.1} fontSize={{ base: "1xl", md: "2xl" }}>
+          Wish To Sign Out?
+        </Heading>
+      </Center>
+      <Button
+        bg={"red.400"}
+        color={"white"}
+        _hover={{
+          bg: "red.500",
+        }}
+        onClick={handleSignOut}
+      >
+        Sign Out
+      </Button>
+    </Stack>
+  );
+};
+
 type LoginModalProps = {
   onSuccess?: () => void;
   onFailure?: () => void;
 };
-
 const LoginModal: FC<LoginModalProps> = ({
   onSuccess = () => {},
   onFailure = () => {},
@@ -214,11 +242,18 @@ const LoginModal: FC<LoginModalProps> = ({
   return (
     <Flex bg="gray.100" align="center" justify="center" h="75vh">
       <Box bg="white" p={4} rounded="md" w={64}>
-        <VStack>
-          <SocialSignIn onSuccess={onSuccess} onFailure={onFailure} />
-          <Divider />
-          <EmailAndPasswordSignIn onSuccess={onSuccess} onFailure={onFailure} />
-        </VStack>
+        {auth.currentUser ? (
+          <SignOut onSuccess={onSuccess} onFailure={onFailure} />
+        ) : (
+          <VStack>
+            <SocialSignIn onSuccess={onSuccess} onFailure={onFailure} />
+            <Divider />
+            <EmailAndPasswordSignIn
+              onSuccess={onSuccess}
+              onFailure={onFailure}
+            />
+          </VStack>
+        )}
       </Box>
     </Flex>
   );
