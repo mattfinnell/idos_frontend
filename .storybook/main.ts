@@ -1,3 +1,4 @@
+import { setConsoleOptions } from "@storybook/addon-console";
 import type { StorybookConfig } from "@storybook/react-webpack5";
 
 const config: StorybookConfig = {
@@ -5,10 +6,11 @@ const config: StorybookConfig = {
   addons: [
     "@storybook/addon-links",
     "@storybook/addon-essentials",
-    "@storybook/preset-create-react-app",
-    "@storybook/addon-onboarding",
+    `@storybook/preset-create-react-app`,
     "@storybook/addon-interactions",
     "@chakra-ui/storybook-addon",
+    "@storybook/addon-console",
+    "@storybook/addon-actions",
   ],
   // @ts-ignore
   features: { emotionAlias: false },
@@ -21,4 +23,11 @@ const config: StorybookConfig = {
   },
   staticDirs: ["../public"],
 };
+
+const panelExclude = setConsoleOptions({}).panelExclude;
+setConsoleOptions({
+  // @ts-ignore
+  panelExclude: [...panelExclude, /deprecated/],
+});
+
 export default config;

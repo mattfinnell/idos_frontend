@@ -10,7 +10,8 @@
       "extensions": [
         "dbaeumer.vscode-eslint",
         "esbenp.prettier-vscode",
-        "oderwat.indent-rainbow"
+        "oderwat.indent-rainbow",
+        "aaron-bond.better-comments"
       ],
       "settings": {
         "editor.formatOnSave": true,
@@ -22,10 +23,10 @@
         "indentRainbow.indicatorStyle": "light",
         "indentRainbow.lightIndicatorStyleLineWidth": 1,
         "indentRainbow.colors": [
-          "rgba(255,255,64,0.3)",
-          "rgba(127,255,127,0.3)",
-          "rgba(255,127,255,0.3)",
-          "rgba(79,236,236,0.3)"
+          "rgba(255,255,64,0.2)",
+          "rgba(127,255,127,0.2)",
+          "rgba(255,127,255,0.2)",
+          "rgba(79,236,236,0.2)"
         ]
       }
     }
