@@ -8,9 +8,9 @@ const config: StorybookConfig = {
     "@storybook/addon-essentials",
     `@storybook/preset-create-react-app`,
     "@storybook/addon-interactions",
-    "@chakra-ui/storybook-addon",
     "@storybook/addon-console",
     "@storybook/addon-actions",
+    "@chakra-ui/storybook-addon",
   ],
   // @ts-ignore
   features: { emotionAlias: false },

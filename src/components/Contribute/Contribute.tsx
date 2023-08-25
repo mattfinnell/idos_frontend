@@ -21,6 +21,7 @@ import { FcAbout, FcCollaboration, FcDonate, FcManager } from "react-icons/fc";
 import { MdOutlineAudiotrack } from "react-icons/md";
 import { useAuthentication } from "../../contexts/AuthContext";
 import SignInButton from "../Login/SignInButton";
+import ProducerForm from "./ProducerForm";
 import VideoForm from "./VideoForm";
 
 interface CardProps {
@@ -67,13 +68,7 @@ const Card = ({ heading, description, icon, form }: CardProps) => {
         <ModalContent>
           <ModalHeader>{heading}</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>
-            <Flex bg="gray.100" align="center" justify="center">
-              <Box bg="white" p={4} rounded="md">
-                {form}
-              </Box>
-            </Flex>
-          </ModalBody>
+          <ModalBody>{form}</ModalBody>
         </ModalContent>
       </Modal>
     </Box>
@@ -104,11 +99,10 @@ const Contribute: FC<ContributeProps> = () => {
             form={<VideoForm />}
           />
           <Card
-            heading={"Heading"}
+            heading={"Add Producer"}
             icon={<Icon as={FcCollaboration} w={10} h={10} />}
-            description={
-              "Lorem ipsum dolor sit amet catetur, adipisicing elit."
-            }
+            description={"Add a Producer"}
+            form={<ProducerForm />}
           />
           <Card
             heading={"Heading"}
