@@ -12,6 +12,7 @@
     "@types/node": "^16.7.13",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
+    "axios": "^1.5.0",
     "chakra-react-select": "^4.7.0",
     "email-validator": "^2.0.4",
     "firebase": "^10.3.0",
@@ -75,10 +76,14 @@
     "babel-plugin-named-exports-order": "^0.0.2",
     "eslint-plugin-storybook": "^0.6.13",
     "fishery": "^2.2.2",
+    "msw": "^1.2.5",
+    "msw-storybook-addon": "^1.8.0",
     "prop-types": "^15.8.1",
-    "react-lorem-ipsum": "^1.4.10",
     "storybook": "^7.3.2",
     "storybook-addon-react-router-v6": "^2.0.5",
     "webpack": "^5.88.2"
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }

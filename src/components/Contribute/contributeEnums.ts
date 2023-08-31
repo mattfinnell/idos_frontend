@@ -8,7 +8,7 @@ export const videoTypes: Array<string> = Object.keys(VideoEnum).map(
 );
 
 export enum ActivityEnum {
-  Snowboarding = "SB",
+  SB = "SB",
   Skiing = "SK",
   Rock_Climbing = "RO",
   Motocross = "MO",

@@ -1,6 +1,11 @@
 import { withConsole } from "@storybook/addon-console";
 import type { Preview } from "@storybook/react";
 
+import { initialize as mswInitializer, mswLoader } from "msw-storybook-addon";
+
+// Initialize Mock Service Worker (MSW)
+mswInitializer();
+
 const preview: Preview = {
   parameters: {
     actions: { argTypesRegex: "^on[A-Z].*" },
@@ -12,6 +17,7 @@ const preview: Preview = {
       },
     },
   },
+  loaders: [mswLoader],
 };
 
 export default preview;
